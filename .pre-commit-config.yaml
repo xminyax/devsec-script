@@ -1,0 +1,32 @@
+repos:
+- repo: https://github.com/zricethezav/gitleaks
+  hooks:
+    - id: gitleaks
+      name: gitleaks
+      entry: |
+        #!/usr/bin/env bash
+        set -e
+
+        if ! command -v gitleaks &> /dev/null; then
+          echo "gitleaks is not installed. Checking OS for installation..."
+
+          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+          if [[ "$OS" == "darwin" ]]; then
+            GITLEAKS_VERSION="4.2.0"
+          elif [[ "$OS" == "linux" ]]; then
+            GITLEAKS_VERSION="4.2.0"
+          else
+            echo "Unsupported operating system: $OS"
+            exit 1
+          fi
+
+          echo "Installing gitleaks $GITLEAKS_VERSION..."
+
+          curl -sSL -o gitleaks.tar.gz https://github.com/zricethezav/gitleaks/releases/download/v$GITLEAKS_VERSION/gitleaks-$GITLEAKS_VERSION-$OS-amd64.tar.gz
+          tar -xzf gitleaks.tar.gz
+          chmod +x gitleaks
+          rm gitleaks.tar.gz
+        fi
+
+        ./gitleaks "$@"
