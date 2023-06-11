@@ -9,3 +9,5 @@ cp pre-commit.sh /<project name>/.git/hooks/pre-commit
 chmod 0744 /<project name>/.git/hooks/pre-commit
 ```
 3. When you create a commit, it will check for secrets
+  
+### Add testing skript whis ChatGPT
